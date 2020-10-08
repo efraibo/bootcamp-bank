@@ -2,7 +2,6 @@ package com.zup.bootcamp.bootcampbank.entities;
 
 import com.zup.bootcamp.bootcampbank.entities.validator.MaiorIdade;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = false)
 public class Cliente extends ObjetoPersistente{
 
     @Column(nullable = false)

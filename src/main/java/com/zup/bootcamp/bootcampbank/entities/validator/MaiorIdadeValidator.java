@@ -20,19 +20,6 @@ public class MaiorIdadeValidator implements ConstraintValidator<MaiorIdade, Loca
     @Override
     public boolean isValid(final LocalDate date, final ConstraintValidatorContext context) {
         int maiorIdade = LocalDate.now().getYear() - MAIOR_IDADE;
-        boolean teste = maiorIdade > date.getYear();
-        log.debug("Teste agora", teste);
-        return teste;
+        return maiorIdade > date.getYear();
     }
-
-//    public static boolean isValid(final LocalDate date) {
-//        int maiorIdade = LocalDate.now().getYear() - MAIOR_IDADE;
-//        boolean teste = maiorIdade < date.getYear();
-//        log.debug("Teste agora", teste);
-//        return false;
-//    }
-//
-//    public static void main(String[] args) {
-//        isValid(LocalDate.now().minusYears(18));
-//    }
 }
