@@ -8,15 +8,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.*;
 
 @Target({FIELD, METHOD, PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = CpfValidator.class)
 @Documented
-public @interface CpfConstraint {
+public @interface Cpf {
     String message() default "{CpfValidator.message}";
 
     Class<?>[] groups() default {};

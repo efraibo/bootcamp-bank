@@ -8,9 +8,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Slf4j
-public class CpfValidator implements ConstraintValidator<CpfConstraint, String> {
+public class CpfValidator implements ConstraintValidator<Cpf, String> {
     @Override
-    public void initialize(CpfConstraint constraintAnnotation) {
+    public void initialize(Cpf constraintAnnotation) {
 
     }
 

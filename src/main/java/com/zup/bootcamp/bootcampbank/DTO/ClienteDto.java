@@ -1,35 +1,35 @@
 package com.zup.bootcamp.bootcampbank.DTO;
 
-import com.zup.bootcamp.bootcampbank.DTO.validator.CpfConstraint;
-import com.zup.bootcamp.bootcampbank.DTO.validator.MaiorIdadeConstraint;
+import com.zup.bootcamp.bootcampbank.DTO.validator.MaiorIdade;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class ClienteDto {
 
-    @NotBlank(message = "O campo nome é obrigatório")
+    @NotEmpty(message = "{campo.nome.obrigatorio}")
     private String nome;
 
-    @NotBlank(message = "O campo sobrenome é obrigatório")
+    @NotEmpty(message = "{campo.sobrenome.obrigatorio}")
     private String sobrenome;
 
-    @Email(message = "Este email já foi cadastrado")
+    @Email(message = "{campo.email.invalido}")
     private String email;
 
-    @NotNull(message = "O campo data de nascimento é obrigatório")
-    @Past
-    @MaiorIdadeConstraint(message = "O cliente não pode ter menos que 18 anos")
+    @NotNull(message = "{campo.data-nascimento.obrigatorio}")
+    @MaiorIdade(message = "{campo.maior-idade.obrigatorio}")
     private LocalDate dataNascimento;
 
-    @CpfConstraint(message = "Cpf inválido")
-    @NotBlank(message = "O campo cpf é obrigatório")
-    @Size(min = 11, max = 11)
+    @CPF(message = "{campo.cpf.invalido}")
+    @NotEmpty(message = "{campo.cpf.obrigatorio}")
     private String cpf;
 }

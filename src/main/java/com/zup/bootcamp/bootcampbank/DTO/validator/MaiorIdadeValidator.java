@@ -6,12 +6,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
-public class MaiorIdadeValidator implements ConstraintValidator<MaiorIdadeConstraint, LocalDate> {
+public class MaiorIdadeValidator implements ConstraintValidator<MaiorIdade, LocalDate> {
 
     private static final int MAIOR_IDADE = 18;
 
     @Override
-    public void initialize(final MaiorIdadeConstraint annotation) {
+    public void initialize(final MaiorIdade annotation) {
     }
 
     @Override
