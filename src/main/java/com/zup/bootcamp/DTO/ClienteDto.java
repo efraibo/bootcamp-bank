@@ -1,6 +1,6 @@
-package com.zup.bootcamp.bootcampbank.DTO;
+package com.zup.bootcamp.DTO;
 
-import com.zup.bootcamp.bootcampbank.DTO.validator.MaiorIdade;
+import com.zup.bootcamp.DTO.validator.MaiorIdade;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

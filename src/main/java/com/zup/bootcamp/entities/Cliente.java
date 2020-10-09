@@ -1,4 +1,4 @@
-package com.zup.bootcamp.bootcampbank.entities;
+package com.zup.bootcamp.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

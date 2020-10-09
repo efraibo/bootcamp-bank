@@ -1,4 +1,4 @@
-package com.zup.bootcamp.bootcampbank;
+package com.zup.bootcamp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

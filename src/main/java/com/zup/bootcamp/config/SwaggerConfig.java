@@ -1,4 +1,4 @@
-package com.zup.bootcamp.bootcampbank.config;
+package com.zup.bootcamp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

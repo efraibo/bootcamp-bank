@@ -1,13 +1,11 @@
-package com.zup.bootcamp.bootcampbank.service;
+package com.zup.bootcamp.service;
 
-import com.zup.bootcamp.bootcampbank.DTO.ClienteDto;
-import com.zup.bootcamp.bootcampbank.entities.Cliente;
-import com.zup.bootcamp.bootcampbank.mapper.ClienteMapper;
-import com.zup.bootcamp.bootcampbank.repositories.ClienteRepository;
+import com.zup.bootcamp.DTO.ClienteDto;
+import com.zup.bootcamp.entities.Cliente;
+import com.zup.bootcamp.mapper.ClienteMapper;
+import com.zup.bootcamp.repositories.ClienteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 

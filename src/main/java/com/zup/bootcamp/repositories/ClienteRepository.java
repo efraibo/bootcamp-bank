@@ -1,6 +1,6 @@
-package com.zup.bootcamp.bootcampbank.repositories;
+package com.zup.bootcamp.repositories;
 
-import com.zup.bootcamp.bootcampbank.entities.Cliente;
+import com.zup.bootcamp.entities.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {

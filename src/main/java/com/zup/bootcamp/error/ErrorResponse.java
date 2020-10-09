@@ -1,4 +1,4 @@
-package com.zup.bootcamp.bootcampbank.error;
+package com.zup.bootcamp.error;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.RequiredArgsConstructor;

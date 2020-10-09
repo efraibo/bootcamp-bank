@@ -1,7 +1,6 @@
-package com.zup.bootcamp.bootcampbank.error;
+package com.zup.bootcamp.error;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.zup.bootcamp.bootcampbank.error.ErrorResponse.ApiError;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleNotValidException(MethodArgumentNotValidException exception, Locale locale) {
         Stream<ObjectError> errors = exception.getBindingResult().getAllErrors().stream();
-        List<ApiError> apiErrors = errors
+        List<ErrorResponse.ApiError> apiErrors = errors
                 .map(ObjectError::getDefaultMessage)
                 .map(code -> toApiError(code, locale))
                 .collect(Collectors.toList());
@@ -64,7 +63,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
-    public ApiError toApiError(String code, Locale locale, Object... args) {
+    public ErrorResponse.ApiError toApiError(String code, Locale locale, Object... args) {
         String message;
 
         try {
@@ -74,7 +73,7 @@ public class ApiExceptionHandler {
             message = NO_MESSAGE_AVAILABLE;
         }
 
-        return new ApiError(code, message);
+        return new ErrorResponse.ApiError(code, message);
     }
 
 

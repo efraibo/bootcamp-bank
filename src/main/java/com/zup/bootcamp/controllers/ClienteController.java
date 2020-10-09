@@ -1,12 +1,9 @@
-package com.zup.bootcamp.bootcampbank.controllers;
+package com.zup.bootcamp.controllers;
 
-import com.zup.bootcamp.bootcampbank.DTO.ClienteDto;
-import com.zup.bootcamp.bootcampbank.entities.Cliente;
-import com.zup.bootcamp.bootcampbank.mapper.ClienteMapper;
-import com.zup.bootcamp.bootcampbank.service.ClienteService;
+import com.zup.bootcamp.DTO.ClienteDto;
+import com.zup.bootcamp.service.ClienteService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

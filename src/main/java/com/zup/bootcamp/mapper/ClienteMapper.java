@@ -1,7 +1,7 @@
-package com.zup.bootcamp.bootcampbank.mapper;
+package com.zup.bootcamp.mapper;
 
-import com.zup.bootcamp.bootcampbank.DTO.ClienteDto;
-import com.zup.bootcamp.bootcampbank.entities.Cliente;
+import com.zup.bootcamp.DTO.ClienteDto;
+import com.zup.bootcamp.entities.Cliente;
 import org.mapstruct.Mapper;
 
 import java.util.List;

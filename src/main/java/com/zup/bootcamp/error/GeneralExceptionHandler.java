@@ -1,4 +1,4 @@
-package com.zup.bootcamp.bootcampbank.error;
+package com.zup.bootcamp.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
