@@ -1,6 +1,8 @@
 package com.zup.bootcamp.controllers;
 
 import com.zup.bootcamp.DTO.ClienteDto;
+import com.zup.bootcamp.entities.Cliente;
+import com.zup.bootcamp.mapper.ClienteMapper;
 import com.zup.bootcamp.service.ClienteService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +18,12 @@ import java.util.List;
 public class ClienteController {
 
     private final ClienteService clienteService;
-//    private final ClienteMapper clienteMapper;
+    private final ClienteMapper clienteMapper;
 
     @GetMapping
     @ApiOperation("Obter todos os clientes")
     public List<ClienteDto> listarTodosClientes() {
-        return clienteService.listarTodosClientes();
+        return clienteMapper.toClintesDto(clienteService.listarTodosClientes());
     }
 
     @ApiResponses(value = {
@@ -31,7 +33,7 @@ public class ClienteController {
     @PostMapping
     @ApiOperation("Cadastrar clientes")
     public ClienteDto casdastrarCliente(@Valid @RequestBody @ApiParam("Cliente") ClienteDto clienteDto) {
-        ClienteDto response = clienteService.salvarCliente(clienteDto);
-        return response;
+        Cliente cliente = clienteService.salvarCliente(clienteMapper.dtoToDomain(clienteDto));
+        return clienteMapper.domainToDto(cliente);
     }
 }

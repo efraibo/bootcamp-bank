@@ -14,19 +14,13 @@ import java.util.List;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
-    private final ClienteMapper clienteMapper;
 
-    public ClienteDto salvarCliente(ClienteDto clienteDto) {
-//        if (clienteRepository.existsByEmail(clienteDto.getEmail()))
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-
-        final Cliente cliente = clienteRepository.saveAndFlush(clienteMapper.dtoToDomain(clienteDto));
-        return clienteMapper.domainToDto(cliente);
-
+    public Cliente salvarCliente(Cliente cliente) {
+        return clienteRepository.saveAndFlush(cliente);
     }
 
-    public List<ClienteDto> listarTodosClientes() {
+    public List<Cliente> listarTodosClientes() {
         final List<Cliente> clientes = clienteRepository.findAll();
-        return clienteMapper.toClintesDto(clientes);
+        return clientes;
     }
 }
