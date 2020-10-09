@@ -21,7 +21,7 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.hibicode.beerstore"))
+                .apis(RequestHandlerSelectors.basePackage("com.zup.bootcamp.bootcampbank"))
 //                .paths(PathSelectors.regex("/api/beers.*"))
                 .paths(PathSelectors.any())
                 .build()
@@ -35,7 +35,7 @@ public class SwaggerConfig {
                 "1.0",
                 "Terms of Service",
                 new Contact("Evandro Nascimento", "https://github.com/efraibo/bootcamp-bank", "efraibo@gmail.com"),
-                "Apache License Version 2.0",
+                "License Version 1.0",
                 "https://www.apache.org/licese.html",
                 new ArrayList<VendorExtension>()
         );
