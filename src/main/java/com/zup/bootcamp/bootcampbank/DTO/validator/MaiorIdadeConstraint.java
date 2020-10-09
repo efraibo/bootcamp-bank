@@ -1,4 +1,4 @@
-package com.zup.bootcamp.bootcampbank.entities.validator;
+package com.zup.bootcamp.bootcampbank.DTO.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -12,12 +12,14 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 
 //https://stackoverflow.com/questions/29637732/annotation-for-hibernate-validator-for-a-date-at-least-24-hours-in-the-future
-@Target({ FIELD, METHOD, PARAMETER })
+@Target({FIELD, METHOD, PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = MaiorIdadeValidator.class)
 @Documented
-public @interface MaiorIdade {
+public @interface MaiorIdadeConstraint {
     String message() default "{MaiorIdade.message}";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
