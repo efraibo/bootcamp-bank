@@ -1,4 +1,4 @@
-package com.zup.bootcamp.DTO.validator;
+package com.zup.bootcamp.validations;
 
 import org.apache.commons.lang3.math.NumberUtils;
 

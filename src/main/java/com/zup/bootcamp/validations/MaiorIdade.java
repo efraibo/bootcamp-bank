@@ -1,4 +1,4 @@
-package com.zup.bootcamp.DTO.validator;
+package com.zup.bootcamp.validations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -15,7 +15,7 @@ import static java.lang.annotation.ElementType.*;
 @Constraint(validatedBy = MaiorIdadeValidator.class)
 @Documented
 public @interface MaiorIdade {
-    String message() default "{MaiorIdade.message}";
+    String message() default "{campo.data-nascimento.maior-idade}";
 
     Class<?>[] groups() default {};
 

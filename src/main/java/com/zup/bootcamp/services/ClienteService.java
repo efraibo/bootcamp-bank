@@ -21,4 +21,8 @@ public class ClienteService {
         final List<Cliente> clientes = clienteRepository.findAll();
         return clientes;
     }
+
+    public boolean isExisteEmail(String email) {
+        return clienteRepository.existsByEmail(email);
+    }
 }
