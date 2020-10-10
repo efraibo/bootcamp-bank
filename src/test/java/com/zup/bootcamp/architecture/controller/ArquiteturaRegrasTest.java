@@ -5,12 +5,28 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import com.zup.bootcamp.entities.Cliente;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
 @AnalyzeClasses(packages = "com.zup.bootcamp",
         importOptions = { ImportOption.DoNotIncludeJars.class })
 public class ArquiteturaRegrasTest {
+
+    @ArchTest
+    public static final ArchRule controllers_deve_contem_annotation_restcontroller = ArchRuleDefinition//
+            .classes().that().resideInAPackage("com.zup.bootcamp.controllers")//
+            .should().beAnnotatedWith(RestController.class)//
+            .because("controllers deve conter annotation RestController");//
+
+    @ArchTest
+    public static final ArchRule services_deve_contem_annotation_service = ArchRuleDefinition//
+            .classes().that().resideInAPackage("com.zup.bootcamp.services")//
+            .should().beAnnotatedWith(Service.class)//
+            .because("services deve conter annotation Service");//
 
     @ArchTest
     static final ArchRule dependencias_camadas_sao_respeitadas = layeredArchitecture()
@@ -39,11 +55,4 @@ public class ArquiteturaRegrasTest {
             .classes().that().haveSimpleNameEndingWith("Repository")
             .should().resideInAPackage("..repositories..")
             .because("Classes com terminologia Repository devem está dentro do pacote com.zup.bootcamp.repositories");
-
-
-//    @ArchTest
-//    public ArchRule controller_public_methods_should_return = methods()
-//            .that().areDeclaredInClassesThat().resideInAPackage("..controllers..")
-//            .and().arePublic().should().haveRawReturnType(ResponseEntity.class)
-//            .because("here is the explanation");
 }
