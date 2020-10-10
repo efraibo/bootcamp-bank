@@ -1,8 +1,6 @@
-package com.zup.bootcamp.service;
+package com.zup.bootcamp.services;
 
-import com.zup.bootcamp.DTO.ClienteDto;
 import com.zup.bootcamp.entities.Cliente;
-import com.zup.bootcamp.mapper.ClienteMapper;
 import com.zup.bootcamp.repositories.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

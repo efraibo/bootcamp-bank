@@ -3,7 +3,7 @@ package com.zup.bootcamp.controllers;
 import com.zup.bootcamp.DTO.ClienteDto;
 import com.zup.bootcamp.entities.Cliente;
 import com.zup.bootcamp.mapper.ClienteMapper;
-import com.zup.bootcamp.service.ClienteService;
+import com.zup.bootcamp.services.ClienteService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
