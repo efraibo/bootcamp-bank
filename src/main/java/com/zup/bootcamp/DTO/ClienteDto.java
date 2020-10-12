@@ -3,6 +3,7 @@ package com.zup.bootcamp.DTO;
 import com.zup.bootcamp.validations.EmailUnico;
 import com.zup.bootcamp.validations.MaiorIdade;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
@@ -12,10 +13,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ClienteDto {
+
+    private Long id;
 
     @NotEmpty(message = "{campo.nome.obrigatorio}")
     private String nome;

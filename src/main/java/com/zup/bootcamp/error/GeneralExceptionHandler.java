@@ -16,7 +16,7 @@ import java.util.Locale;
 @RestControllerAdvice
 public class GeneralExceptionHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ApiExceptionHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GeneralExceptionHandler.class);
 
     @Autowired
     private ApiExceptionHandler apiExceptionHandler;

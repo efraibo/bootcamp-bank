@@ -1,19 +1,17 @@
-package com.zup.bootcamp.architecture.controller;
+package com.zup.bootcamp.architecture;
 
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
-import com.zup.bootcamp.entities.Cliente;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
 @AnalyzeClasses(packages = "com.zup.bootcamp",
-        importOptions = { ImportOption.DoNotIncludeJars.class })
+        importOptions = {ImportOption.DoNotIncludeJars.class, ImportOption.DoNotIncludeTests.class})
 public class ArquiteturaRegrasTest {
 
     @ArchTest

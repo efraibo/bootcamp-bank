@@ -18,8 +18,7 @@ public class ClienteService {
     }
 
     public List<Cliente> listarTodosClientes() {
-        final List<Cliente> clientes = clienteRepository.findAll();
-        return clientes;
+        return clienteRepository.findAll();
     }
 
     public boolean isExisteEmail(String email) {
