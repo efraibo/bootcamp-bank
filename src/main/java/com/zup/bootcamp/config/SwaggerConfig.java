@@ -21,7 +21,7 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.zup.bootcamp.bootcampbank"))
+                .apis(RequestHandlerSelectors.basePackage("com.zup.bootcamp"))
 //                .paths(PathSelectors.regex("/api/beers.*"))
                 .paths(PathSelectors.any())
                 .build()
