@@ -1,5 +1,6 @@
 package com.zup.bootcamp.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zup.bootcamp.validations.EmailUnico;
 import com.zup.bootcamp.validations.MaiorIdade;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class ClienteDto {
 

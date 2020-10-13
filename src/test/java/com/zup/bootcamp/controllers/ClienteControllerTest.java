@@ -26,7 +26,7 @@ import java.time.LocalDate;
 class ClienteControllerTest {
 
     static String CLIENTE_API = "/api/clientes";
-    Cliente cliente = new Cliente();
+    ClienteDto clienteDto = new ClienteDto();
     @Autowired
     private TestRestTemplate restTemplate;
     @LocalServerPort
@@ -40,13 +40,13 @@ class ClienteControllerTest {
 
     @BeforeEach
     public void setup() {
-        BeanUtils.copyProperties(criarClientePadrao(), cliente);
+        BeanUtils.copyProperties(criarClientePadrao(), clienteDto);
     }
 
     @Test
     @DisplayName("Deve cadastrar um cliente com sucesso.")
     void salvarClienteTest() throws Exception {
-        BDDMockito.when(service.salvarCliente(cliente)).thenReturn(cliente);
+        BDDMockito.when(service.salvarCliente(clienteDto)).thenReturn(clienteDto);
         ResponseEntity<Cliente> response = restTemplate.postForEntity(CLIENTE_API, criarClientePadrao(), Cliente.class);
         Assertions.assertThat(response.getStatusCodeValue()).isEqualTo(201);
         Assertions.assertThat(response.getBody().getId()).isNotNull();

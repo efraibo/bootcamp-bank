@@ -5,7 +5,7 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 import java.util.Objects;
 
-public class ListUtils<T> {
+public class ListMapperUtils<T> {
     public void copyList(Object obj, List<T> list2, Class<T> classObj) {
         if ((!Objects.isNull(obj)) && (!Objects.isNull(list2))) {
             List list1 = (List) obj;

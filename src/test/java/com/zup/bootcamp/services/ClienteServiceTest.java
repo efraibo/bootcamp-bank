@@ -1,5 +1,6 @@
 package com.zup.bootcamp.services;
 
+import com.zup.bootcamp.DTO.ClienteDto;
 import com.zup.bootcamp.entities.Cliente;
 import com.zup.bootcamp.repositories.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,23 +35,23 @@ class ClienteServiceTest {
     @Test
     void salvarCliente() {
 
-        final Cliente cliente = clienteCriado();
+        final ClienteDto clienteDto = clienteCriado();
         final Cliente clienteMock = clienteCriadoMock();
 
         when(clienteRepository.saveAndFlush(any(Cliente.class))).thenReturn(clienteMock);
 
-        Cliente clienteRetornado = clienteService.salvarCliente(cliente);
+        ClienteDto clienteRetornado = clienteService.salvarCliente(clienteDto);
 
         assertThat(clienteRetornado.getId()).isNotNull();
-        assertThat(clienteRetornado.getNome()).isEqualTo(cliente.getNome());
-        assertThat(clienteRetornado.getSobrenome()).isEqualTo(cliente.getSobrenome());
-        assertThat(clienteRetornado.getCpf()).isEqualTo(cliente.getCpf());
-        assertThat(clienteRetornado.getDataNascimento()).isEqualTo(cliente.getDataNascimento());
-        assertThat(clienteRetornado.getEmail()).isEqualTo(cliente.getEmail());
+        assertThat(clienteRetornado.getNome()).isEqualTo(clienteDto.getNome());
+        assertThat(clienteRetornado.getSobrenome()).isEqualTo(clienteDto.getSobrenome());
+        assertThat(clienteRetornado.getCpf()).isEqualTo(clienteDto.getCpf());
+        assertThat(clienteRetornado.getDataNascimento()).isEqualTo(clienteDto.getDataNascimento());
+        assertThat(clienteRetornado.getEmail()).isEqualTo(clienteDto.getEmail());
     }
 
-    Cliente clienteCriado() {
-        return Cliente.builder()
+    private ClienteDto clienteCriado() {
+        return ClienteDto.builder()
                 .cpf("01234567890")
                 .dataNascimento(LocalDate.now().minusYears(12))
                 .nome("João")
