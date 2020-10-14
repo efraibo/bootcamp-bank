@@ -24,9 +24,9 @@ public class ResourceUriHelper {
 
         if (RequestContextHolder.getRequestAttributes() != null) {
             response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-            response.setHeader(HttpHeaders.LOCATION, uri.toString());
-        } else {
-            throw new RuntimeException();
+            if (response != null) {
+                response.setHeader(HttpHeaders.LOCATION, uri.toString());
+            }
         }
     }
 
