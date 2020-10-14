@@ -95,9 +95,7 @@ class ClienteControllerTest {
                 .nome("Maria")
                 .sobrenome("do Teste")
                 .email("teste@teste.com").build();
-//        BDDMockito.when(repository.save(cliente)).thenReturn(cliente);
         repository.save(cliente);
-        List<Cliente> all = repository.findAll();
 
         BDDMockito.when(service.salvarCliente(clienteDto)).thenReturn(clienteDto);
 
