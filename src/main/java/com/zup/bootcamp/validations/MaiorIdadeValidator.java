@@ -12,6 +12,7 @@ public class MaiorIdadeValidator implements ConstraintValidator<MaiorIdade, Loca
 
     @Override
     public void initialize(final MaiorIdade annotation) {
+        // Do nothing because of X and Y.
     }
 
     @Override
