@@ -22,11 +22,13 @@ public class ResourceUriHelper {
 
         HttpServletResponse response = null;
 
-        if (RequestContextHolder.getRequestAttributes() != null) {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        if (RequestContextHolder.getRequestAttributes() != null
+                && (ServletRequestAttributes) RequestContextHolder.getRequestAttributes() != null
+                && ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse() != null) {
             response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-            if (response != null) {
-                response.setHeader(HttpHeaders.LOCATION, uri.toString());
-            }
+            response.setHeader(HttpHeaders.LOCATION, uri.toString());
         }
     }
 
