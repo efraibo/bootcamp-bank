@@ -12,7 +12,9 @@ public class EmailUnicoValidator implements ConstraintValidator<EmailUnico, Stri
     private final ClienteService clienteService;
 
     @Override
-    public void initialize(EmailUnico constraintAnnotation) {}
+    public void initialize(EmailUnico constraintAnnotation) {
+        // Do nothing because of X and Y.
+    }
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {

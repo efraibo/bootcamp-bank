@@ -1,8 +1,7 @@
-package com.zup.bootcamp.Utils;
+package com.zup.bootcamp.utils;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpHeaders;
-import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

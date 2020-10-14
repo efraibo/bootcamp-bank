@@ -42,7 +42,7 @@ public class SwaggerConfig {
     }
 
     private ApiInfo metaInfo() {
-        ApiInfo apiInfo = new ApiInfo(
+        return new ApiInfo(
                 "Bootcamp Bank",
                 "Projeto Bootcamp ZUP",
                 "1.0",
@@ -52,7 +52,6 @@ public class SwaggerConfig {
                 "https://www.apache.org/licese.html",
                 new ArrayList<VendorExtension>()
         );
-        return apiInfo;
     }
 
 }

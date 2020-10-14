@@ -1,7 +1,7 @@
 package com.zup.bootcamp.controllers;
 
 import com.zup.bootcamp.dto.ClienteDto;
-import com.zup.bootcamp.Utils.ResourceUriHelper;
+import com.zup.bootcamp.utils.ResourceUriHelper;
 import com.zup.bootcamp.services.ClienteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
