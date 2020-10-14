@@ -3,13 +3,14 @@ package com.zup.bootcamp.services;
 import com.zup.bootcamp.DTO.ClienteDto;
 import com.zup.bootcamp.entities.Cliente;
 import com.zup.bootcamp.repositories.ClienteRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.time.LocalDate;
 
@@ -18,30 +19,29 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+//@SpringBootTest
 class ClienteServiceTest {
 
-    @Autowired
+    @InjectMocks
     private ClienteService clienteService;
-    @MockBean
+    @Mock
     private ClienteRepository clienteRepository;
-
-    @BeforeEach
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @DisplayName("Deve salvar o cliente com sucesso!")
     @Test
     void salvarCliente() {
 
+        //given
         final ClienteDto clienteDto = clienteCriado();
         final Cliente clienteMock = clienteCriadoMock();
-
         when(clienteRepository.saveAndFlush(any(Cliente.class))).thenReturn(clienteMock);
 
+        //when
         ClienteDto clienteRetornado = clienteService.salvarCliente(clienteDto);
 
+        //then
         assertThat(clienteRetornado.getId()).isNotNull();
         assertThat(clienteRetornado.getNome()).isEqualTo(clienteDto.getNome());
         assertThat(clienteRetornado.getSobrenome()).isEqualTo(clienteDto.getSobrenome());

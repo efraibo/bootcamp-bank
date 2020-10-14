@@ -5,32 +5,27 @@ import com.zup.bootcamp.repositories.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
 class ClienteRepositoryTest {
 
-    Cliente clientePadrao = new Cliente();
-    @Autowired
-    private TestEntityManager entityManager;
     @Autowired
     private ClienteRepository clienteRepository;
+
+    private Cliente clientePadrao = new Cliente();
 
     @BeforeEach
     public void init() {
         clientePadrao = Cliente.builder()
                 .cpf("01234567890")
-                .dataNascimento(LocalDate.now().minusYears(12))
+                .dataNascimento(LocalDate.now().minusYears(18))
                 .nome("João")
                 .sobrenome("do Teste")
                 .email("teste@teste.com").build();
@@ -39,38 +34,36 @@ class ClienteRepositoryTest {
     @Test
     @DisplayName("Deve salvar o cliente com sucesso.")
     void salvarClienteTest() {
-        //given
 
-        entityManager.persist(clientePadrao);
-        entityManager.flush();
+        //given
+        Cliente clienteAtual = this.clientePadrao;
 
         //when
-        final Cliente clienteRetornado = clienteRepository.saveAndFlush(clientePadrao);
+        final Cliente clienteRetornado = clienteRepository.saveAndFlush(clienteAtual);
 
         //then
         assertThat(clienteRetornado.getId()).isNotNull();
-        assertThat(clienteRetornado.getNome()).isEqualTo(clientePadrao.getNome());
-        assertThat(clienteRetornado.getSobrenome()).isEqualTo(clientePadrao.getSobrenome());
-        assertThat(clienteRetornado.getEmail()).isEqualTo(clientePadrao.getEmail());
-        assertThat(clienteRetornado.getCpf()).isEqualTo(clientePadrao.getCpf());
-        assertThat(clienteRetornado.getDataNascimento()).isEqualTo(clientePadrao.getDataNascimento());
+        assertThat(clienteRetornado.getNome()).isEqualTo(clienteAtual.getNome());
+        assertThat(clienteRetornado.getSobrenome()).isEqualTo(clienteAtual.getSobrenome());
+        assertThat(clienteRetornado.getEmail()).isEqualTo(clienteAtual.getEmail());
+        assertThat(clienteRetornado.getCpf()).isEqualTo(clienteAtual.getCpf());
+        assertThat(clienteRetornado.getDataNascimento()).isEqualTo(clienteAtual.getDataNascimento());
     }
 
     @Test
     @DisplayName("Deve retornar todos os clientes salvos")
     void clienteFindAllTest() {
         //given
-        entityManager.persist(clientePadrao);
-        entityManager.flush();
-
         final Cliente cliente1 = Cliente.builder()
                 .cpf("000000000191")
-                .dataNascimento(LocalDate.now().minusYears(12))
+                .dataNascimento(LocalDate.now().minusYears(18))
                 .nome("Maria")
                 .sobrenome("do Teste")
                 .email("teste1@teste.com").build();
-        entityManager.persist(cliente1);
-        entityManager.flush();
+
+        clienteRepository.saveAndFlush(clientePadrao);
+        clienteRepository.saveAndFlush(cliente1);
+
 
         //when
         final List<Cliente> clientesRetornado = clienteRepository.findAll();
@@ -86,8 +79,6 @@ class ClienteRepositoryTest {
     @DisplayName("Deve verificar se o email consultado já existe na base de dados")
     void emailExistenteTest() {
         //given
-        entityManager.persist(clientePadrao);
-        entityManager.flush();
         final Cliente cliente = clienteRepository.saveAndFlush(clientePadrao);
 
         //when

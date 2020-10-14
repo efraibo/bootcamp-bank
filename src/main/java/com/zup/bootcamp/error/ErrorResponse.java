@@ -15,21 +15,24 @@ import static lombok.AccessLevel.PRIVATE;
 public class ErrorResponse {
 
     private final int statusCode;
+    private final String reason;
     private final List<ApiError> errors;
 
-    static ErrorResponse of(HttpStatus status, List<ApiError> errors) {
-        return new ErrorResponse(status.value(), errors);
+    static ErrorResponse ofErrors(HttpStatus status, List<ApiError> errors) {
+        return new ErrorResponse(status.value(), status.getReasonPhrase(), errors);
     }
 
     static ErrorResponse of(HttpStatus status, ApiError error) {
-        return of(status, Collections.singletonList(error));
+        return ofErrors(status, Collections.singletonList(error));
     }
 
     @JsonAutoDetect(fieldVisibility = ANY)
     @RequiredArgsConstructor
     static class ApiError {
+
         private final String code;
         private final String message;
+
     }
 
 }

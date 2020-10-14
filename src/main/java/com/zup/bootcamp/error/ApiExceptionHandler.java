@@ -1,28 +1,28 @@
 package com.zup.bootcamp.error;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.zup.bootcamp.error.ErrorResponse.ApiError;
+import com.zup.bootcamp.services.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
 
-@Order(Ordered.HIGHEST_PRECEDENCE)
+
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice //exception in center local
 @RequiredArgsConstructor
 public class ApiExceptionHandler {
@@ -30,50 +30,63 @@ public class ApiExceptionHandler {
     //https://alidg.me/blog/2016/9/24/rest-api-error-handling
 
     private static final String NO_MESSAGE_AVAILABLE = "No message available";
-    private static final Logger LOG = LoggerFactory.getLogger(ApiExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
     private final MessageSource apiErrorMessageSource;
 
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleNotValidException(MethodArgumentNotValidException exception, Locale locale) {
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException exception, Locale locale) {
         Stream<ObjectError> errors = exception.getBindingResult().getAllErrors().stream();
-        List<ErrorResponse.ApiError> apiErrors = errors
+        List<ApiError> apiErrors = errors
                 .map(ObjectError::getDefaultMessage)
+                .map(this::createErrorCode)
                 .map(code -> toApiError(code, locale))
-                .collect(Collectors.toList());
+                .collect(toList());
 
-        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.BAD_REQUEST, apiErrors);
-        return ResponseEntity.badRequest().body(errorResponse);
+        return ResponseEntity.badRequest().body(ErrorResponse.ofErrors(HttpStatus.BAD_REQUEST, apiErrors));
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessExceptions(BusinessException exception, Locale locale) {
+        final ErrorCode errorCode = createErrorCode(exception.getCode(), exception.getStatus());
+        final ErrorResponse errorResponse = ErrorResponse.of(errorCode.getHttpStatus(), toApiError(errorCode, locale));
+        return ResponseEntity.status(errorCode.getHttpStatus()).body(errorResponse);
     }
 
     @ExceptionHandler(InvalidFormatException.class)
-    public ResponseEntity<ErrorResponse> handlerInvalidFormatException(InvalidFormatException exception, Locale locale) {
-        final String errorCode = "generic-1";
-        final HttpStatus status = HttpStatus.BAD_REQUEST;
-        final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale, exception.getValue()));
-        return ResponseEntity.badRequest().body(errorResponse);
+    public ResponseEntity<ErrorResponse> handleInvalidFormatException(InvalidFormatException exception, Locale locale) {
+        final ErrorCode errorCode = createErrorCode("beerType.invalid", HttpStatus.BAD_REQUEST);
+        final ErrorResponse errorResponse = ErrorResponse.of(errorCode.getHttpStatus(), toApiError(errorCode, locale, exception.getValue()));
+        return ResponseEntity.status(errorCode.getHttpStatus()).body(errorResponse);
     }
 
-    @ExceptionHandler(HttpClientErrorException.BadRequest.class)
-    public ResponseEntity<ErrorResponse> handlerBadRequestException(InvalidFormatException exception, Locale locale) {
-        final String errorCode = "generic-1";
-        final HttpStatus status = HttpStatus.BAD_REQUEST;
-        final ErrorResponse errorResponse = ErrorResponse.of(status, toApiError(errorCode, locale, exception.getValue()));
-        return ResponseEntity.badRequest().body(errorResponse);
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleInternalServerError(Exception exception, Locale locale) {
+        LOGGER.error("Error not expected", exception);
+        final ErrorCode errorCode = createErrorCode("internalServerError", HttpStatus.INTERNAL_SERVER_ERROR);
+        final ErrorResponse errorResponse = ErrorResponse.of(errorCode.getHttpStatus(), toApiError(errorCode, locale));
+        return ResponseEntity.status(errorCode.getHttpStatus()).body(errorResponse);
     }
 
-    public ErrorResponse.ApiError toApiError(String code, Locale locale, Object... args) {
+
+    private ApiError toApiError(ErrorCode errorCode, Locale locale, Object... args) {
         String message;
-
         try {
-            message = apiErrorMessageSource.getMessage(code, args, locale);
+            message = apiErrorMessageSource.getMessage(errorCode.getCode(), args, locale);
         } catch (NoSuchMessageException e) {
-            LOG.error("Could not find any message for {} code under {} locale ", code, locale);
+            LOGGER.error("Couldn't find any message for {} code under {} locale", errorCode.getCode(), locale);
             message = NO_MESSAGE_AVAILABLE;
         }
 
-        return new ErrorResponse.ApiError(code, message);
+        return new ApiError(errorCode.getCode(), message);
+    }
+
+    private ErrorCode createErrorCode(final String errorCode, final HttpStatus status) {
+        return new ErrorCode(errorCode, status);
+    }
+
+    private ErrorCode createErrorCode(final String errorCode) {
+        return createErrorCode(errorCode, HttpStatus.BAD_REQUEST);
     }
 
 

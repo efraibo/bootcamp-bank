@@ -1,5 +1,7 @@
 package com.zup.bootcamp.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zup.bootcamp.DTO.ClienteDto;
 import com.zup.bootcamp.entities.Cliente;
 import com.zup.bootcamp.repositories.ClienteRepository;
@@ -16,26 +18,41 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class ClienteControllerTest {
 
     static String CLIENTE_API = "/api/clientes";
+
     ClienteDto clienteDto = new ClienteDto();
+
     @Autowired
     private TestRestTemplate restTemplate;
+
     @LocalServerPort
     private int port;
+
     @Autowired
     private MockMvc mockMvc;
+
     @MockBean
     private ClienteService service;
-    @MockBean
+
+    @Autowired
     private ClienteRepository repository;
 
     @BeforeEach
@@ -46,15 +63,61 @@ class ClienteControllerTest {
     @Test
     @DisplayName("Deve cadastrar um cliente com sucesso.")
     void salvarClienteTest() throws Exception {
+        //given
         BDDMockito.when(service.salvarCliente(clienteDto)).thenReturn(clienteDto);
-        ResponseEntity<Cliente> response = restTemplate.postForEntity(CLIENTE_API, criarClientePadrao(), Cliente.class);
-        Assertions.assertThat(response.getStatusCodeValue()).isEqualTo(201);
-        Assertions.assertThat(response.getBody().getId()).isNotNull();
+        String json = new ObjectMapper().writeValueAsString(clienteDto);
+
+        //when
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(CLIENTE_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        //then
+        mockMvc
+                .perform(request)
+                .andExpect( status().isCreated() )
+                .andExpect( jsonPath("id").isNotEmpty())
+                .andExpect( jsonPath("nome").value(clienteDto.getNome()))
+                .andExpect( jsonPath("sobrenome").value(clienteDto.getSobrenome()))
+                .andExpect( jsonPath("email").value(clienteDto.getEmail()))
+                .andExpect( jsonPath("dataNascimento").value(clienteDto.getDataNascimento().toString()))
+                .andExpect( jsonPath("cpf").value(clienteDto.getCpf()) );
+    }
+
+    @Test
+    void teste() throws Exception {
+        //given
+        Cliente cliente = Cliente.builder()
+                .cpf("00000000191")
+                .dataNascimento(LocalDate.now().minusYears(18))
+                .nome("Maria")
+                .sobrenome("do Teste")
+                .email("teste@teste.com").build();
+//        BDDMockito.when(repository.save(cliente)).thenReturn(cliente);
+        repository.save(cliente);
+        List<Cliente> all = repository.findAll();
+
+        BDDMockito.when(service.salvarCliente(clienteDto)).thenReturn(clienteDto);
+
+        String json = new ObjectMapper().writeValueAsString(clienteDto);
+
+        //when
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(CLIENTE_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        //then
+        mockMvc.perform(request)
+                .andExpect( status().isBadRequest() )
+                .andExpect( jsonPath("errors", hasSize(1)));
     }
 
     private ClienteDto criarClientePadrao() {
         return ClienteDto.builder()
-                .id(1L)
                 .cpf("01234567890")
                 .dataNascimento(LocalDate.now().minusYears(18))
                 .nome("João")
