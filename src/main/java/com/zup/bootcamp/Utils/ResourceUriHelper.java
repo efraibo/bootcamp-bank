@@ -1,8 +1,8 @@
 package com.zup.bootcamp.Utils;
 
 import lombok.experimental.UtilityClass;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
+import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -10,28 +10,21 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 
-@Log4j2
+
 @UtilityClass
 public class ResourceUriHelper {
 
+    @NonNull
     public static void addUriInResponseHeader(Object resourceId) {
 
-        try {
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{id}")
+                .buildAndExpand(resourceId).toUri();
 
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
-                    .path("/{id}")
-                    .buildAndExpand(resourceId).toUri();
+        HttpServletResponse response = ((ServletRequestAttributes)
+                RequestContextHolder.getRequestAttributes()).getResponse();
 
-            if (((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()) == null) {
-                throw new Exception();
-            }
-            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-                    .getResponse();
-
-            response.setHeader(HttpHeaders.LOCATION, uri.toString());
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        response.setHeader(HttpHeaders.LOCATION, uri.toString());
     }
 
 }
