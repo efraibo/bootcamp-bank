@@ -1,6 +1,6 @@
 package com.zup.bootcamp.mapper;
 
-import com.zup.bootcamp.DTO.ClienteDto;
+import com.zup.bootcamp.dto.ClienteDto;
 import com.zup.bootcamp.entities.Cliente;
 import org.mapstruct.Mapper;
 

@@ -1,7 +1,7 @@
 package com.zup.bootcamp.services;
 
 import com.google.common.collect.Lists;
-import com.zup.bootcamp.DTO.ClienteDto;
+import com.zup.bootcamp.dto.ClienteDto;
 import com.zup.bootcamp.Utils.ListMapperUtils;
 import com.zup.bootcamp.entities.Cliente;
 import com.zup.bootcamp.repositories.ClienteRepository;
