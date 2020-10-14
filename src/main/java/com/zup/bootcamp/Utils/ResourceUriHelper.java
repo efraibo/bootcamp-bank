@@ -1,7 +1,6 @@
 package com.zup.bootcamp.Utils;
 
 import lombok.experimental.UtilityClass;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,8 +22,11 @@ public class ResourceUriHelper {
                     .path("/{id}")
                     .buildAndExpand(resourceId).toUri();
 
-            HttpServletResponse response = ((ServletRequestAttributes)
-                    RequestContextHolder.getRequestAttributes()).getResponse();
+            if (((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()) == null) {
+                throw new Exception();
+            }
+            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                    .getResponse();
 
             response.setHeader(HttpHeaders.LOCATION, uri.toString());
         } catch (Exception e) {
