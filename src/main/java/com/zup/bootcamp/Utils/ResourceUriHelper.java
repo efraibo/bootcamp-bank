@@ -14,15 +14,22 @@ import java.net.URI;
 @UtilityClass
 public class ResourceUriHelper {
 
-    @NonNull
     public static void addUriInResponseHeader(Object resourceId) {
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}")
                 .buildAndExpand(resourceId).toUri();
 
-        HttpServletResponse response = ((ServletRequestAttributes)
-                RequestContextHolder.getRequestAttributes()).getResponse();
+        HttpServletResponse response = null;
+
+        if (RequestContextHolder.getRequestAttributes() != null
+                && ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse() != null) {
+
+            response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        } else {
+            throw new RuntimeException();
+        }
+
 
         response.setHeader(HttpHeaders.LOCATION, uri.toString());
     }
