@@ -1,7 +1,7 @@
-package com.zup.bootcamp.error;
+package com.zup.bootcamp.controllers.error;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.zup.bootcamp.error.ErrorResponse.ApiError;
+import com.zup.bootcamp.controllers.error.ErrorResponse.ApiError;
 import com.zup.bootcamp.services.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

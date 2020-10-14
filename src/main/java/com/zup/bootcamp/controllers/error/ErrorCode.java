@@ -1,4 +1,4 @@
-package com.zup.bootcamp.error;
+package com.zup.bootcamp.controllers.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
