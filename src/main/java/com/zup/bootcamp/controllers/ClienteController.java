@@ -39,7 +39,6 @@ public class ClienteController {
             @ApiResponse(code = 201, message = "Cliente cadastrado com sucesso."),
             @ApiResponse(code = 400, message = "Erro de validação")
     })
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Cadastrar clientes")
     public ClienteDto casdastrarCliente(@Valid @RequestBody @ApiParam("Cliente") ClienteDto clienteDto) {
